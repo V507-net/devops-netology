@@ -23,3 +23,4 @@ netology.jsonnet – jsonnet.
     Подготовлены ветки git-merge и git-rebase к дальнейшим действиям
     Слияние git-merge прошло успешно
     Слияние git-rebase с main после разрешения конфликтов
+    Готово
