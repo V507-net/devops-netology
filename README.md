@@ -15,7 +15,7 @@ netology.jsonnet – jsonnet.
 Добавлен файлы /terraform/file.ignore и terraform/.gitignore в котором прописан файл file.ignore
 Сделанны необходимые коммиты по перемещению и удалению файлов
 
-Коммита для ветки main после fix
+Коммит для ветки main после fix
 
 
 Домашнее задание к занятию «2.3. Ветвления в Git»
