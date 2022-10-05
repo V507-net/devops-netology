@@ -1,7 +1,6 @@
 # devops-netology
 
 
-
 Домашнее задание по лекции "Введение в DevOps"
 
 netology.tf – терраформ,
