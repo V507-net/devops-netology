@@ -19,6 +19,7 @@
            VLAN (virtual local area network)  пакет vlan, команды например vconfig и ip
            Пример конфига: Добавить vlan 118 через интерфейс eth2
               ip link add link eth2 name eth2.118 type vlan id 118 
+              ip link set eth2.118 up 
 
 4. Какие типы агрегации интерфейсов есть в Linux? Какие опции есть для балансировки нагрузки? Приведите пример конфига.
 
