@@ -16,7 +16,7 @@
 
    3. Какая технология используется для разделения L2 коммутатора на несколько виртуальных сетей? Какой пакет и команды есть в Linux для этого? Приведите пример конфига.
    
-           VLAN (virtual local area network)  пакет vlan, команды например vconfig и ip
+           VLAN (virtual local area network)  пакет vlan и модуль ядра 8021q, команды например vconfig и ip
            Пример конфига: Добавить vlan 118 через интерфейс eth2
               ip link add link eth2 name eth2.118 type vlan id 118 
               ip link set eth2.118 up 
