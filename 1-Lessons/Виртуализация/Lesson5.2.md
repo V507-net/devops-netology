@@ -25,25 +25,25 @@
 Установить на личный компьютер:
 
 - VirtualBox
----
-PS C:\Program Files\Oracle\VirtualBox> .\VBoxManage.exe --version
+***
+>PS C:\Program Files\Oracle\VirtualBox> .\VBoxManage.exe --version
 7.0.4r154605
----
+***
 - Vagrant
----
-PS C:\Program Files\Oracle\VirtualBox> vagrant --version
+***
+>PS C:\Program Files\Oracle\VirtualBox> vagrant --version
 Vagrant 2.3.2
----
+***
 - Ansible
----
-vagrant@server1:~$ ansible --version
+***
+>vagrant@server1:~$ ansible --version
 ansible 2.9.6
   config file = /etc/ansible/ansible.cfg
   configured module search path = ['/home/vagrant/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
   ansible python module location = /usr/lib/python3/dist-packages/ansible
   executable location = /usr/bin/ansible
   python version = 3.8.10 (default, Mar 15 2022, 12:22:08) [GCC 9.4.0]
----
+***
 
 *Приложить вывод команд установленных версий каждой из программ, оформленный в markdown.*
 
