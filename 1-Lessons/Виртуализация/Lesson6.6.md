@@ -93,6 +93,7 @@ InterfaceError: (InterfaceError) 2013: Lost connection to MySQL server during qu
             Настроил бы параметры ядра системы Linux overcommit_memory с значением 2 для того что бы ядро не резервировало 
             больше памяти для процесса чем есть и overcommit_ratio при необходимости
             Проверил бы соответствие параметров конфигруации Postgres shared_buffers, effective_cache_size, work_mem,
-            maintenance_work_mem ресурсам сервера 
+            maintenance_work_mem ресурсам сервера, при наличии возможности увеличил бы их. 
+            В крайнем случае можно было бы уменьшить параметр max_connections, для ограничения нагрузки.
 
 ---
