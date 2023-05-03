@@ -84,6 +84,190 @@
 
 ## Решение
 
+main.tf
+```hcl
+resource "yandex_vpc_network" "develop" {
+  name = var.vpc_name
+}
+resource "yandex_vpc_subnet" "develop" {
+  name           = var.vpc_name
+  zone           = var.default_zone
+  network_id     = yandex_vpc_network.develop.id
+  v4_cidr_blocks = var.default_cidr
+}
+
+data "yandex_compute_image" "ubuntu" {
+  family = local.image_name
+}
+resource "yandex_compute_instance" "platform" {
+  name        = local.vm1_name
+  platform_id = "standard-v1"
+
+    resources {
+    cores         = var.vm_web_res["cores"]
+    memory        = var.vm_web_res["memory"]
+    core_fraction = var.vm_web_res["core_fraction"]
+  }
+
+  boot_disk {
+    initialize_params {
+      image_id = data.yandex_compute_image.ubuntu.image_id
+    }
+  }
+  scheduling_policy {
+    preemptible = true
+  }
+  network_interface {
+    subnet_id = yandex_vpc_subnet.develop.id
+    nat       = true
+  }
+  metadata = {
+    serial-port-enable = var.vm_meta_serial
+    ssh-keys = var.vm_meta_ssh_key
+  }
+}
+
+resource "yandex_compute_instance" "platformdb" {
+  name        = local.vm2_name
+  platform_id = "standard-v1"
+
+    resources {
+    cores         = var.vm_db_res["cores"]
+    memory        = var.vm_db_res["memory"]
+    core_fraction = var.vm_db_res["core_fraction"]
+  }
+
+boot_disk {
+    initialize_params {
+      image_id = data.yandex_compute_image.ubuntu.image_id
+    }
+  }
+  scheduling_policy {
+    preemptible = true
+  }
+  network_interface {
+    subnet_id = yandex_vpc_subnet.develop.id
+    nat       = true
+  }
+
+  metadata = {
+    serial-port-enable = var.vm_meta_serial
+    ssh-keys = var.vm_meta_ssh_key
+  }
+}
+```
+vms-platform.tf
+```hcl
+variable "vm_web_res" {
+  type = map(any)
+  default = {
+    cores         = 2
+    memory        = 1
+    core_fraction = 5
+  }
+}
+
+variable "vm_db_res" {
+  type = map(any)
+  default = {
+    cores         = 2
+    memory        = 2
+    core_fraction = 20
+  }
+}
+
+variable "yc_token" {
+}
+
+variable "yc_cloud_id" {
+}
+
+variable "yc_folder_id" {
+}
+
+variable "default_zone" {
+  type        = string
+  default     = "ru-central1-a"
+  description = "https://cloud.yandex.ru/docs/overview/concepts/geo-scope"
+}
+variable "default_cidr" {
+  type        = list(string)
+  default     = ["10.0.1.0/24"]
+  description = "https://cloud.yandex.ru/docs/vpc/operations/subnet-create"
+}
+
+variable "vpc_name" {
+  type        = string
+  default     = "develop"
+  description = "VPC network & subnet name"
+}
+
+variable "vm_web_name" {
+  type        = string
+  default     = "netology-develop-platform-web"
+  description = "resource name"
+}
+
+variable "vm_web_image_name" {
+  type        = string
+  default     = "ubuntu-2004-lts"
+  description = "image name"
+}
+
+variable "vm_db_name" {
+  type        = string
+  default     = "netology-develop-platform-db"
+  description = "resource name"
+}
+
+variable "vm_meta_serial" {
+  type        = string
+  default     = "1"
+  description = "serial-port-enable = 1"
+}
+
+variable "vm_meta_ssh_key" {
+}
+
+```
+providers.tf
+```hcl
+
+terraform {
+  required_providers {
+    yandex = {
+      source = "yandex-cloud/yandex"
+    }
+  }
+  required_version = ">=0.13"
+}
+
+provider "yandex" {
+  token     = var.yc_token
+  cloud_id  = var.yc_cloud_id
+  folder_id = var.yc_folder_id
+  zone      = var.default_zone
+}
+```
+locals.tf
+```hcl
+locals {
+  vm1_name   = "netology-develop-platform-web"
+  vm2_name   = "netology-develop-platform-db"
+  image_name = "ubuntu-2004-lts"
+}
+```
+outputs.tf
+```hcl
+output "external_ip_address_platform_yandex_cloud" {
+  value = "${yandex_compute_instance.platform.network_interface.0.nat_ip_address}"
+}
+output "external_ip_address_platformdb_yandex_cloud" {
+  value = "${yandex_compute_instance.platformdb.network_interface.0.nat_ip_address}"
+}
+```
+
+
 ![img_68.png](img_68.png)
 ![img_69.png](img_69.png)
 
