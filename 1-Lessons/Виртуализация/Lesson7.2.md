@@ -105,17 +105,21 @@
 1. Напишите, какой командой можно отобразить **второй** элемент списка test_list?
 
 ![img_70.png](img_70.png)
+
 2. Найдите длину списка test_list с помощью функции length(<имя переменной>).
 
 ![img_72.png](img_72.png)
+
 3. Напишите, какой командой можно отобразить значение ключа admin из map test_map ?
 
 ![img_73.png](img_73.png)
+
 4. Напишите interpolation выражение, результатом которого будет: "John is admin for production server based on OS ubuntu-20-04 with X vcpu, Y ram and Z virtual disks", используйте данные из переменных test_list, test_map, servers и функцию length() для подстановки значений.
 
          "${local.test_map["admin"]} is admin for production server based on OS ${local.servers.production["image"]} 
          with ${local.servers.production["cpu"]} vcpu, ${local.servers.production["ram"]} ram 
          and ${length(local.servers.production["disks"])} virtual disks"
+
 ![img_74.png](img_74.png)
 
 ------
