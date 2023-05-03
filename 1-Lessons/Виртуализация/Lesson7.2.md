@@ -287,14 +287,20 @@ output "external_ip_address_platformdb_yandex_cloud" {
 ## Решение
 
 1. Напишите, какой командой можно отобразить **второй** элемент списка test_list?
+        
+         local.test_list[1]
 
 ![img_70.png](img_70.png)
 
 2. Найдите длину списка test_list с помощью функции length(<имя переменной>).
 
+         length(local.test_list)
+
 ![img_72.png](img_72.png)
 
 3. Напишите, какой командой можно отобразить значение ключа admin из map test_map ?
+
+         local.test_map["admin"]
 
 ![img_73.png](img_73.png)
 
