@@ -1,0 +1,11 @@
+services:
+ clickhouse:
+    image: pycontribs/centos:7
+    container_name: clickhouse-01
+    restart: unless-stopped
+    entrypoint: "sleep 10000"
+ vector:
+    image: pycontribs/centos:7
+    container_name: vector-01
+    restart: unless-stopped
+    entrypoint: "sleep 10000"
