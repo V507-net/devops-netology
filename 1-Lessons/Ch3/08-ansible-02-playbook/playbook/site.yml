@@ -1,7 +1,7 @@
 - name: Install Clickhouse
   hosts: clickhouse
   handlers:
-    - name: Start clickhouse service
+    - name: Start Clickhouse service
       become: true
       command: "/etc/init.d/clickhouse-server start"
   tasks:
