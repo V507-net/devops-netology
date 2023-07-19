@@ -19,6 +19,12 @@
             - clickhouse-server
             - clickhouse-client
           state: latest
+      - name: Configure clickhouse server
+        become: true
+        ansible.builtin.lineinfile:
+          path: /etc/clickhouse-server/config.xml
+          regexp: <!-- <listen_host>0.0.0.0</listen_host> -->
+          line: <listen_host>0.0.0.0</listen_host>
       - name: Enable service clickhouse-server
         ansible.builtin.systemd:
           name: clickhouse-server
@@ -32,6 +38,7 @@
         failed_when: create_db.rc != 0 and create_db.rc !=82
         changed_when: create_db.rc == 0
 - name: Install Vector
+  tags: vector
   hosts: vector
   handlers:
     - name: Start vector
@@ -76,3 +83,17 @@
           state: directory
           path: "{{ vector_data_dir }}"
           mode: 0755
+      - name: Create config dir
+        become: true
+        file:
+          state: directory
+          path: "/etc/vector"
+          mode: 0755
+      - name: Configurate Vector
+        tags: update_vector_conf
+        ansible.builtin.template:
+          src: vector_config.j2
+          dest: "{{ vector_path }}/config/vector.toml"
+          mode: 0755
+          validate: vector validate --no-environment --config-toml %s
+
