@@ -14,6 +14,10 @@
 ## Установка 
 
 1. Подготовить окружение для установки с помощью Docker [docker-compose.yml](playbook%2Fdocker-compose.yml)
-2. Запустить playbook  [site.yml](playbook%2Fsite.yml) с параметрами окружения [prod.yml](playbook%2Finventory%2Fprod.yml)
+2. Отредактировать при необходимости [group_vars](playbook%2Fgroup_vars) и [templates](playbook%2Ftemplates)
+3. Запустить playbook  [site.yml](playbook%2Fsite.yml) с параметрами окружения [prod.yml](playbook%2Finventory%2Fprod.yml)
          
-        Пример: ansible-playbook site.yml -i inventory/prod.yml
+        ansible-playbook site.yml -i inventory/prod.yml
+4. Для обновления конфигурации Vector использовать тэг update_vector_conf
+
+        ansible-playbook site.yml -i inventory/prod.yml --tags update_vector_conf
