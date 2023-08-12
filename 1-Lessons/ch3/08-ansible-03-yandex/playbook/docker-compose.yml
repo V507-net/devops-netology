@@ -1,0 +1,28 @@
+services:
+ clickhouse:
+    image: pycontribs/centos:7
+    container_name: clickhouse-01
+    restart: unless-stopped
+    entrypoint: "sleep 10000"
+    networks:
+      - default
+ vector:
+    image: pycontribs/centos:7
+    container_name: vector-01
+    restart: unless-stopped
+    entrypoint: "sleep 10000"
+    networks:
+      - default
+ lighthouse:
+    image: pycontribs/centos:7
+    container_name: lighthouse-01
+    restart: unless-stopped
+    entrypoint: "sleep 10000"
+    networks:
+      - default
+networks:
+  default:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.0.0/16
