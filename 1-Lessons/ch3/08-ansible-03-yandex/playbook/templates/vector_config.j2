@@ -10,7 +10,7 @@ type = "clickhouse"
 inputs = [ "transform_stdin" ]
 compression = "gzip"
 database = "logs"
-endpoint = "http://{{ clickhouse_ip_or_docker_container_name }}:8123"
+endpoint = "http://{{ clickhouse }}:8123"
 table = "logstable"
 
 

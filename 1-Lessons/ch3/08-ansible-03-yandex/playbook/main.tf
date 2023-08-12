@@ -49,3 +49,12 @@ resource "local_file" "inventory" {
         )
         filename = format("%s/%s", abspath(path.root), "prod.yaml")
 }
+
+resource "local_file" "vars" {
+    content = templatefile("vars.tmpl",
+        {
+      vms = yandex_compute_instance.vms0803
+        }
+        )
+        filename = format("%s/%s", abspath(path.root), "./group_vars/all/vars.yml")
+}
