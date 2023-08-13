@@ -1,0 +1,14 @@
+all:
+  hosts: %{ for instance in vms }
+    ${instance.name}:
+      ansible_host: ${instance.network_interface.0.nat_ip_address}
+  children:
+    ${instance.metadata.type}:
+      hosts:
+        ${instance.name}: %{ endfor }
+    postgres:
+      hosts:
+        sonar-01:
+  vars:
+    ansible_user: centos
+    ansible_connection_type: paramiko
