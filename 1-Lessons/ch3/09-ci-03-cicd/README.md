@@ -20,7 +20,12 @@
 
 В ответе пришлите файл `maven-metadata.xml` для этого артефекта.
 
+[maven-metadata.xml](maven-metadata.xml)
+<details>
+ <summary>Скриншоты</summary>
 
+![2023-08-14 02.03.52 158.160.40.137 fae881bc46df.png](2023-08-14%2002.03.52%20158.160.40.137%20fae881bc46df.png)
+</details>
 
 ### Знакомство с Maven
 
