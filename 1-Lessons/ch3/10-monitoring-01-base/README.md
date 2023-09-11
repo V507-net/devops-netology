@@ -77,7 +77,12 @@ push
 
 ## Решение
 
+<details>
+ <summary>Скриншоты</summary>
 
+![img.png](img.png)
+
+</details>
 
 
 ## Задание
