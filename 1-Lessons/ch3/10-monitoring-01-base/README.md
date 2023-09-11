@@ -96,11 +96,25 @@ push
 Для выполнения задания приведите скриншот с отображением метрик утилизации cpu из веб-интерфейса.
 
 ## Решение
+<details>
+ <summary>Скриншоты</summary>
+
+![img_1.png](img_1.png)
+</details>
 
 ## Задание
 9. Изучите список telegraf inputs. Добавьте в конфигурацию telegraf следующий плагин - docker:
 
 
 ## Решение
+
+<details>
+ <summary>Скриншоты</summary>
+
+
+![img_2.png](img_2.png)
+
+</details>
+
 
 ---
