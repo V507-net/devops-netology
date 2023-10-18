@@ -1,4 +1,5 @@
 - name: Install Clickhouse
+  tags: clickhouse
   hosts: clickhouse
   handlers:
     - name: Start Clickhouse service
