@@ -1,0 +1,149 @@
+- name: Install Clickhouse
+  tags: clickhouse
+  hosts: clickhouse
+  handlers:
+    - name: Start Clickhouse service
+      become: true
+      command: "/etc/init.d/clickhouse-server start"
+  tasks:
+    - block:
+      - name: Add repository
+        become: true
+        yum_repository:
+          name: clickhouse
+          description: clickhouse repo
+          baseurl: https://packages.clickhouse.com/rpm/stable/
+          gpgkey: https://packages.clickhouse.com/rpm/stable/repodata/repomd.xml.key
+          gpgcheck: false
+      - name: Install clickhouse
+        become: true
+        ansible.builtin.yum:
+          name:
+            - clickhouse-server
+            - clickhouse-client
+          state: latest
+      - name: Configure clickhouse server
+        become: true
+        ansible.builtin.lineinfile:
+          path: /etc/clickhouse-server/config.xml
+          regexp: <!-- <listen_host>0.0.0.0</listen_host> -->
+          line: <listen_host>0.0.0.0</listen_host>
+      - name: Enable service clickhouse-server
+        become: true
+        ansible.builtin.systemd:
+          name: clickhouse-server
+          enabled: true
+          masked: no
+      - name: Start clickhouse-server
+        become: true
+        command: "/etc/init.d/clickhouse-server start"
+      - name: Create database
+        command: "clickhouse-client -q 'create database logs;'"
+        register: create_db
+        failed_when: create_db.rc != 0 and create_db.rc !=82
+        changed_when: create_db.rc == 0
+- name: Install Vector
+  tags: vector
+  hosts: vector
+  handlers:
+    - name: Start vector
+      become: true
+      ansible.builtin.shell: "vector --config {{ vector_path }}/config/vector.toml"
+  tasks:
+    - block:
+      - name: Get vector distrib
+        ansible.builtin.get_url:
+          url: "https://packages.timber.io/vector/{{ vector_version }}/vector-{{ vector_version }}-x86_64-unknown-linux-gnu.tar.gz"
+          force: true
+          dest: "/tmp/vector.tar.gz"
+          mode: 0755
+      - name: Create dir
+        become: true
+        file:
+          state: directory
+          path: "{{ vector_path }}"
+          mode: 0755
+      - name: Unarchive vector
+        become: true
+        unarchive:
+          copy: false
+          src: "/tmp/vector.tar.gz"
+          dest: "{{ vector_path }}"
+          extra_opts: [--strip-components=2]
+          creates: "{{ vector_path }}/bin/vector"
+      - name: Copy vector bin
+        become: true
+        copy:
+          src: "{{ vector_path }}/bin/vector"
+          dest: "/usr/bin/"
+          mode: 0755
+          remote_src: yes
+      - name: Copy service file
+        become: true
+        copy:
+          src: "{{ vector_path }}/etc/systemd/vector.service"
+          dest: "/etc/systemd/system/"
+          remote_src: yes
+      - name: Create data dir
+        become: true
+        file:
+          state: directory
+          path: "{{ vector_data_dir }}"
+          mode: 0755
+      - name: Create config dir
+        become: true
+        file:
+          state: directory
+          path: "/etc/vector"
+          mode: 0755
+      - name: Configurate Vector
+        tags: update_vector_conf
+        ansible.builtin.template:
+          src: vector_config.j2
+          dest: "{{ vector_path }}/config/vector.toml"
+          mode: 0755
+          validate: vector validate --no-environment --config-toml %s
+- name: Install Lighthouse
+  tags: lighthouse
+  hosts: lighthouse
+  handlers:
+    - name: Start nginx
+      become: true
+      ansible.builtin.service:
+        name: nginx
+        state: restarted
+  tasks:
+    - name: Install epel-release
+      become: true
+      ansible.builtin.yum:
+        name:
+          - epel-release
+    - name: Install unzip
+      become: true
+      ansible.builtin.yum:
+        name:
+          - unzip
+    - name: Install nginx
+      become: true
+      ansible.builtin.yum:
+        name:
+          - nginx
+    - block:
+       - name: Download lighthouse
+         ansible.builtin.get_url:
+           url: "https://github.com/VKCOM/lighthouse/archive/refs/heads/master.zip"
+           dest: /tmp/lighthouse.zip
+       - name: Unzip lighthouse dist
+         become: true
+         ansible.builtin.unarchive:
+           src: /tmp/lighthouse.zip
+           dest: /usr/share/nginx
+           remote_src: yes
+       - name: Configurate nginx
+         become: true
+         tags: update_nginx_conf
+         ansible.builtin.template:
+           src: nginx_config.j2
+           dest: "/etc/nginx/conf.d/lighthouse.conf"
+           mode: 0755             
+         notify: Start nginx

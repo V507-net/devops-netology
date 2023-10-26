@@ -1,0 +1,8 @@
+  server {
+      listen       80;
+      server_name  _;
+      root         /usr/share/nginx/lighthouse-master/;
+      index index.html;
+      include /etc/nginx/default.d/*.conf;
+  }
+
