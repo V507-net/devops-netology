@@ -15,3 +15,8 @@
    которые задаются в процессе подготовки окружения с помощью Terraform
          
         Пример: ansible-playbook site.yml -i prod.yaml
+
+
+
+
+

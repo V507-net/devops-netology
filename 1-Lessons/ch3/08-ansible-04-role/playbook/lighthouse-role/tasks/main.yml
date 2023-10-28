@@ -1,2 +1,36 @@
 ---
 # tasks file for lighthouse-role
+- name: Install epel-release
+  become: true
+  ansible.builtin.yum:
+    name:
+      - epel-release
+- name: Install unzip
+  become: true
+  ansible.builtin.yum:
+    name:
+      - unzip
+- name: Install nginx
+  become: true
+  ansible.builtin.yum:
+    name:
+      - nginx
+- block:
+   - name: Download lighthouse
+     ansible.builtin.get_url:
+       url: "https://github.com/VKCOM/lighthouse/archive/refs/heads/master.zip"
+       dest: /tmp/lighthouse.zip
+   - name: Unzip lighthouse dist
+     become: true
+     ansible.builtin.unarchive:
+       src: /tmp/lighthouse.zip
+       dest: /usr/share/nginx
+       remote_src: yes
+   - name: Configurate nginx
+     become: true
+     tags: update_nginx_conf
+     ansible.builtin.template:
+       src: nginx_config.j2
+       dest: "/etc/nginx/conf.d/lighthouse.conf"
+       mode: 0755             
+     notify: Start nginx
