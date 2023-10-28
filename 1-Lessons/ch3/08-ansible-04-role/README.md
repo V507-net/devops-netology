@@ -2,8 +2,14 @@
 Домашнее задание к занятию 4 «Работа с roles»
 
 ## Описание плейбука [site.yml](playbook%2Fsite.yml)
-   Данный [плейбук](playbook%2Fsite.yml) устанавливает и настраивает ClickHouse, Vector и Lighthouse.
-   С помощь ролей 
+   Данный плейбук [site.yml](playbook%2Fsite.yml) устанавливает и настраивает ClickHouse, Vector и Lighthouse.
+   С помощь ролей:
+
+   [vector-role](https://github.com/V507-net/vector-role)
+
+   [lighthouse-role](https://github.com/V507-net/lighthouse-role)
+
+   [clickhouse](https://github.com/AlexeySetevoi/ansible-clickhouse)
 
    Окружение в Yandex cloud подготавливается с помощью [Terraform](playbook%2Fmain.tf), после этого в файл [prod.yaml](playbook%2Fprod.yaml) записываются внешние адреса хостов в формате Ansible inventory файла для дальнейшего использования с плейбуком, также в файл /group_vars/all/[vars.yml](playbook%2Fgroup_vars%2Fall%2Fvars.yml) записываются переменные с IP-адресами устанавливаемых систем.   
   
