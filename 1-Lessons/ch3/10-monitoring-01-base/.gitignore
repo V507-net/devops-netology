@@ -1,4 +1,5 @@
 ./7tick
+./7tick/
 # Local .terraform directories and files
 **/.terraform/*
 .terraform*
