@@ -1,5 +1,8 @@
 # Домашнее задание к занятию 7 «Жизненный цикл ПО»
 
+
+<details>
+ <summary>Задание</summary>
 ## Подготовка к выполнению
 
 1. Получить бесплатную версию [Jira](https://www.atlassian.com/ru/software/jira/free).
@@ -37,9 +40,23 @@
 2. Если всё отработалось в рамках ожидания — выгрузите схемы workflow для импорта в XML. Файлы с workflow и скриншоты workflow приложите к решению задания.
 
 ---
+</details>
 
-### Как оформить решение задания
+## Решение
 
-Выполненное домашнее задание пришлите в виде ссылки на .md-файл в вашем репозитории.
+<details>
+ <summary>Схемы XML</summary>
 
----
+[Simple workflow 1.xml](Simple%20workflow%201.xml)
+
+[Bug2.xml](Bug2.xml)
+</details>
+<details>
+ <summary>Скриншоты</summary>
+
+![img.png](img.png)
+
+![img_1.png](img_1.png)
+
+</details>
+
