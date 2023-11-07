@@ -8,6 +8,8 @@
   hosts: vector
   roles:
     - vector-role
+  vars_files:
+    - vars/vectorconfig.yml
 - name: Install Lighthouse
   tags: lighthouse
   hosts: lighthouse
