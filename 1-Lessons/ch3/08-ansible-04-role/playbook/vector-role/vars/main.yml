@@ -1,5 +1,0 @@
----
-# vars file for vector-role
-vector_version: "0.30.0"
-vector_path: "/opt/vector/"
-vector_data_dir: "/var/lib/vector/"
