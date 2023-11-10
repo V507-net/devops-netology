@@ -79,4 +79,6 @@ https://gitlab.com/V507-net/09-ci-06
 
 ![img_4.png](img_4.png)
 
+![img_5.png](img_5.png)
+
 </details>
