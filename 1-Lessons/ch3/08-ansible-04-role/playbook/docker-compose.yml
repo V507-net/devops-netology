@@ -7,8 +7,9 @@ services:
     networks:
       - default
  vector:
-    image: pycontribs/centos:7
+    image: centos:7
     container_name: vector-01
+    privileged: true
     restart: unless-stopped
     entrypoint: "sleep 10000"
     networks:

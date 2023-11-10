@@ -1,0 +1,6 @@
+[init]
+	defaultBranch = none
+[fetch]
+	recurseSubmodules = false
+[http "https://gitlab.com"]
+	sslCAInfo = /opt/devops-netology/1-Lessons/ch3/08-ansible-04-role/playbook/builds/VAgjSEzEC/0/V507-net/09-ci-06.tmp/CI_SERVER_TLS_CA_FILE
