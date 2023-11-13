@@ -2,13 +2,17 @@ version: "3"
 services:
   teamcity:
     image: jetbrains/teamcity-server
+    container_name: teamcity-server
+    user: root
     volumes:
       - ~/teamcity/data/:/data/teamcity_server/datadir
       - ~/teamcity/logs/:/opt/teamcity/logs
     ports:
       - 8111:8111
   teamcity-agent:
-    image: jetbrains/teamcity-agent 
+    image: jetbrains/teamcity-agent
+    container_name: teamcity-agent
+    user: root
     depends_on:
       - teamcity
     volumes:
