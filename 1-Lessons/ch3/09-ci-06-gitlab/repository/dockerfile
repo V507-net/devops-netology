@@ -1,0 +1,17 @@
+FROM centos:7
+RUN mkdir /python_api
+COPY python_api/python-api.py /python_api/
+COPY requirements.txt /
+RUN yum -y install epel-release
+RUN yum -y install gcc make zlib-devel bzip2-devel openssl-devel
+RUN curl https://www.python.org/ftp/python/3.7.9/Python-3.7.9.tgz --output Python-3.7.9.tgz 
+RUN tar xzf Python-3.7.9.tgz 
+RUN ./Python-3.7.9/configure --enable-optimizations --with-ensurepip=install
+RUN make -s -j24 altinstall /Python-3.7.9
+RUN yum -y install python3-pip
+RUN pip3 install -r requirements.txt
+RUN cd ..
+RUN rm -rf Python-3.7.9
+RUN rm -rf Python-3.7.9.tgz 
+RUN yum -y remove gcc make zlib-devel bzip2-devel openssl-devel
+ENTRYPOINT ["python3", "/python_api/python-api.py"]
