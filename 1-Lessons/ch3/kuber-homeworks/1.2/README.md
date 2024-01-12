@@ -58,6 +58,8 @@
 ## Решение
 
 ### Задание 1. Создать Pod с именем hello-world
+
+[Манифест Pod hello-world](podhw.yaml)
 <details>
  <summary>Скриншоты</summary>
 
@@ -67,6 +69,10 @@
 </details>
 
 ### Задание 2. Создать Service и подключить его к Pod
+
+[Манифест Pod netology-web](podnetology-web.yaml)
+
+[Манифест Service netology-svc](svcnetology-svc.yaml)
 
 <details>
  <summary>Скриншоты</summary>
