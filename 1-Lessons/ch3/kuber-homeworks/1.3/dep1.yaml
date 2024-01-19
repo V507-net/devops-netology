@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploymente1
+  labels:
+    app: nginxplusmultitule1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginxplusmultitule1
+  template:
+    metadata:
+      labels:
+        app: nginxplusmultitule1
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+          name: nginxport
+      - name: multitool
+        image: wbitt/network-multitool
+        env:
+        - name: HTTP_PORT
+          value: "8080"
+        ports:
+        - containerPort: 8080
+          name: multitoolport
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: servicee1
+spec:
+  selector:
+    app: nginxplusmultitule1
+  ports:
+    - name: porttonginx
+      protocol: TCP
+      port: 1080
+      targetPort: 80
+    - name: porttomultitool
+      protocol: TCP
+      port: 18080
+      targetPort: 8080       
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: multitoolpode1
+  labels:
+    app: multitoolpode1 
+spec:
+  containers:
+  - name: multitoolpode1
+    image: wbitt/network-multitool
+    env:
+    - name: HTTP_PORT
+      value: "8083"
+    ports:
+    - containerPort: 8083
