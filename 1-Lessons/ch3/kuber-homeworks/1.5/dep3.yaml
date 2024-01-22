@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: frontend 
+kind: Deployment 
 metadata:
   name: frontend 
   labels:
@@ -21,7 +21,7 @@ spec:
         - containerPort: 80
 ---
 apiVersion: apps/v1
-kind: backend
+kind: Deployment
 metadata:
   name: backend 
   labels:
