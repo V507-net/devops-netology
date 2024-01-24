@@ -1,0 +1,73 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: kub21-1
+  labels:
+    app: kub21-1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kub21-1
+  template:
+    metadata:
+      labels:
+        app: kub21-1
+    spec:
+      containers:
+        - name: busybox
+          image: busybox
+          command:
+          - "/bin/sh"
+          - "-c"
+          - "while true; do uptime >> /opt/shared/log.txt; sleep 5; done"
+          volumeMounts:
+          - mountPath: /opt/shared
+            name: volume1
+        - name: multitool
+          image: wbitt/network-multitool
+          volumeMounts:
+          - mountPath: /opt/shared
+            name: volume1
+          env:
+          - name: HTTP_PORT
+            value: "8080"
+          ports:
+          - containerPort: 8080
+            name: http-port
+      volumes:
+      - name: volume1
+        hostPath:
+          path: /opt/shared
+---
+apiVersion : apps/v1
+kind: DaemonSet
+metadata:
+  name: kub21-2
+  labels:
+    app: kub21-2
+spec:
+  selector:
+    matchLabels:
+      app: kub21-2
+  template:
+    metadata:
+      labels:
+        app: kub21-2
+    spec:
+      containers:
+        - name: multitool
+          image: wbitt/network-multitool
+          volumeMounts:
+          - mountPath: /var/log/syslog
+            name: volume2
+          env:
+          - name: HTTP_PORT
+            value: "8080"
+          ports:
+          - containerPort: 8080
+            name: http-port
+      volumes:
+      - name: volume2
+        hostPath:
+          path: /var/log/syslog
