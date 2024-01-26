@@ -71,10 +71,14 @@
 
 [Манифест к заданию 1](dep.yaml)
 
+            Пояснения: Согласно политике Reclaim Policy:  Delete, после удаления PVC кластер попытался удалить PV, 
+            но у него ни чего не вышло так как "host_path deleter only supports /tmp/.+" а я PV разместил в /opt/share/pv
+            Соттветственно ничего удалено не было
+            
 <details>
  <summary>Скриншоты</summary>
 
-
+![img.png](img.png)
 
 </details>
 
@@ -87,6 +91,6 @@
 <details>
  <summary>Скриншоты</summary>
 
-
+![img_1.png](img_1.png)
 
 </details>
