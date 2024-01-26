@@ -1,0 +1,65 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv2-2
+spec:
+  storageClassName: ""
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /opt/share/pv
+  persistentVolumeReclaimPolicy: Delete
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc2-2
+spec:
+  storageClassName: ""
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: kub22-1
+  labels:
+    app: kub22-1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kub22-1
+  template:
+    metadata:
+      labels:
+        app: kub22-1
+    spec:
+      containers:
+        - name: busybox
+          image: busybox
+          command: ['sh', '-c', 'while true; do uptime >> /opt/share/pv/log.txt; sleep 5; done']
+          volumeMounts:
+          - mountPath: /opt/share/pv
+            name: volume1
+        - name: multitool
+          image: wbitt/network-multitool
+          volumeMounts:
+          - mountPath: /opt/share/pv
+            name: volume1
+          env:
+          - name: HTTP_PORT
+            value: "8080"
+          ports:
+          - containerPort: 8080
+            name: http-port
+      volumes:
+      - name: volume1
+        persistentVolumeClaim:
+          claimName: pvc2-2
