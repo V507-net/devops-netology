@@ -36,8 +36,8 @@ kubectl apply -f https://raw.githubusercontent.com/netology-code/kuber-homeworks
 
 ### Задание. При деплое приложение web-consumer не может подключиться к auth-db. Необходимо это исправить
 
-<details>
- <summary>Скриншоты</summary>
+[Исправленный манифест](task.yaml)
 
+            Разрешение коротких имен не работает в разных namespace, либо добавить namespace к auth-db что бы получилось auth-db.data
+            либо вообще полное имя auth-db.data.svc.cluster.local
 
-</details>
